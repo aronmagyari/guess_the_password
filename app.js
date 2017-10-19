@@ -1,18 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
-  var wordCount = 10;
-  var guessCount = 4;
-  var password = '';
+  const wordCount = 10;
+  const guessCount = 4;
+  let password = '';
 
-  var start = document.getElementById('start');
+  let start = document.getElementById('start');
   start.addEventListener('click', function() {
     toggleClasses(document.getElementById('start-screen'), 'hide', 'show');
     toggleClasses(document.getElementById('game-screen'), 'hide', 'show');
     startGame();
   });
 
-  function toggleClasses(element) {
+  function toggleClasses({classList}) {
     for (var i = 1; i < arguments.length; i++) {
-      element.classList.toggle(arguments[i]);
+      classList.toggle(arguments[i]);
     }
   }
 
@@ -54,16 +54,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function setGuessCount(newCount) {
     guessCount = newCount;
-    document.getElementById("guesses-remaining").innerText = "Guesses remaining: " + guessCount + ".";
+    document.getElementById("guesses-remaining").innerText = `Guesses remaining: ${guessCount}.`;
   }
 
-  function updateGame(e) {
-    if (e.target.tagName === "LI" && !e.target.classList.contains("disabled")) {
+  function updateGame({target}) {
+    if (target.tagName === "LI" && !target.classList.contains("disabled")) {
       // grab guessed word, check it against password, update view
-      var guess = e.target.innerText;
+      var guess = target.innerText;
       var similarityScore = compareWords(guess, password);
-      e.target.classList.add("disabled");
-      e.target.innerText = e.target.innerText + " --> Matching Letters: " + similarityScore;
+      target.classList.add("disabled");
+      target.innerText = target.innerText + ` --> Matching Letters: ${similarityScore}`;
       setGuessCount(guessCount - 1);
 
       // check whether the game is over
